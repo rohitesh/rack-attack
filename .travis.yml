@@ -13,3 +13,5 @@ matrix:
   exclude:
     - rvm: 1.9.2
       gemfile: gemfiles/activesupport4.0
+env:
+  - TEST_INTEGRATION=1
