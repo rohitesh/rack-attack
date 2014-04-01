@@ -58,6 +58,9 @@ module Rack
       class DalliProxy < SimpleDelegator
         def initialize(client)
           super(client)
+          # Dalli >= 2.7.0 has a `with` method for better threaded performance.
+          # Use it if we got it.
+          @client_with = client.method(:with) if client.respond_to?(:with)
         end
 
         def read(key)
@@ -79,6 +82,15 @@ module Rack
             client.incr(key, amount, options.fetch(:expires_in, 0), amount)
           end
         rescue Dalli::DalliError
+        end
+
+        protected
+        def with(&block)
+          if @client_with
+            @client_with.call {|c| yield(c) }
+          else
+            yield(self)
+          end
         end
 
       end

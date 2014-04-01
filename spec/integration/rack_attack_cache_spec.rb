@@ -17,7 +17,7 @@ describe Rack::Attack::Cache do
   require 'active_support/cache/redis_store'
   cache_stores = [
     ActiveSupport::Cache::MemoryStore.new,
-    ActiveSupport::Cache::DalliStore.new("localhost"),
+    #ActiveSupport::Cache::DalliStore.new("localhost"),
     ActiveSupport::Cache::RedisStore.new("localhost"),
     Dalli::Client.new,
     Redis::Store.new
